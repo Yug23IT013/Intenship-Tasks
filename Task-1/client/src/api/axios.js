@@ -37,6 +37,7 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+    const authErrorCode = error.response?.data?.code;
 
     const isExpired =
       error.response?.status === 401 &&
@@ -75,6 +76,11 @@ api.interceptors.response.use(
       } finally {
         isRefreshing = false;
       }
+    }
+
+    if (error.response?.status === 401 && authErrorCode === 'TOKEN_REVOKED') {
+      localStorage.removeItem('accessToken');
+      window.dispatchEvent(new Event('auth:logout'));
     }
 
     return Promise.reject(error);

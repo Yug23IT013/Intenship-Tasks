@@ -4,8 +4,8 @@ const User = require('../models/User');
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-const generateAccessToken = (userId, role) => {
-  return jwt.sign({ id: userId, role }, process.env.JWT_ACCESS_SECRET, {
+const generateAccessToken = (userId, role, tokenVersion = 0) => {
+  return jwt.sign({ id: userId, role, tokenVersion }, process.env.JWT_ACCESS_SECRET, {
     expiresIn: process.env.JWT_ACCESS_EXPIRES || '15m',
   });
 };
@@ -58,7 +58,7 @@ const register = async (req, res) => {
 
     const user = await User.create({ username, email, password, role: assignedRole });
 
-    const accessToken = generateAccessToken(user._id, user.role);
+    const accessToken = generateAccessToken(user._id, user.role, user.tokenVersion);
     const refreshToken = generateRefreshToken(user._id);
 
     // Persist refresh token in DB
@@ -113,7 +113,7 @@ const login = async (req, res) => {
       });
     }
 
-    const accessToken = generateAccessToken(user._id, user.role);
+    const accessToken = generateAccessToken(user._id, user.role, user.tokenVersion);
     const refreshToken = generateRefreshToken(user._id);
 
     // Rotate refresh tokens — keep max 5 sessions per user
@@ -157,6 +157,7 @@ const refresh = async (req, res) => {
       // Token reuse detected or user doesn't exist — invalidate all sessions
       if (user) {
         user.refreshTokens = [];
+        user.tokenVersion += 1;
         await user.save({ validateBeforeSave: false });
       }
       res.clearCookie('refreshToken');
@@ -169,7 +170,7 @@ const refresh = async (req, res) => {
     user.refreshTokens.push(newRefreshToken);
     await user.save({ validateBeforeSave: false });
 
-    const accessToken = generateAccessToken(user._id, user.role);
+    const accessToken = generateAccessToken(user._id, user.role, user.tokenVersion);
     sendRefreshTokenCookie(res, newRefreshToken);
 
     return res.status(200).json({
@@ -195,6 +196,7 @@ const logout = async (req, res) => {
       const user = await User.findById(decoded.id).select('+refreshTokens');
       if (user) {
         user.refreshTokens = user.refreshTokens.filter((t) => t !== token);
+        user.tokenVersion += 1;
         await user.save({ validateBeforeSave: false });
       }
     } catch (_) {

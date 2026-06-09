@@ -29,6 +29,14 @@ const verifyToken = async (req, res, next) => {
       });
     }
 
+    if ((decoded.tokenVersion ?? 0) !== (user.tokenVersion ?? 0)) {
+      return res.status(401).json({
+        success: false,
+        message: 'Session expired. Please log in again.',
+        code: 'TOKEN_REVOKED',
+      });
+    }
+
     req.user = { id: user._id, role: user.role, email: user.email };
     next();
   } catch (error) {

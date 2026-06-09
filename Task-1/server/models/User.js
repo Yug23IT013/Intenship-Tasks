@@ -35,6 +35,10 @@ const UserSchema = new mongoose.Schema(
       default: [],
       select: false,
     },
+    tokenVersion: {
+      type: Number,
+      default: 0,
+    },
     isActive: {
       type: Boolean,
       default: true,

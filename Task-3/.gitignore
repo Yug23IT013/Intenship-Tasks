@@ -1,24 +1,54 @@
+# Dependency directories
+node_modules/
+
+# Build outputs
+/dist
+/build
+
+# Environment files
+.env
+.env.*
+
 # Logs
-logs
-*.log
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
+logs/
+*.log
 
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# OS files
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+Thumbs.db
+
+# Editor directories
+.vscode/
+.idea/
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Misc caches
+.cache/
+.parcel-cache/
+/.vite
+
+# Mac/Windows filesystem files
+.Spotlight-V100
+.Trashes
+
+# Static archive files
+*.tgz
+
+# Optional: local lock files (uncomment if you don't commit lockfiles)
+# package-lock.json
+# yarn.lock
+
+# Ignore server/client specific build folders if they exist
+/client/dist
+/client/build
+/server/dist
+/server/build
+
+# Keep dotenv example files
+!*.env.example

@@ -3,6 +3,8 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 
+const path = require('path');
+
 // Load env variables
 dotenv.config();
 
@@ -18,6 +20,9 @@ app.use(cors({
 
 app.use(express.json());
 
+// Serve static uploads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // Logger
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} | ${req.method} ${req.originalUrl}`);
@@ -28,6 +33,7 @@ app.use((req, res, next) => {
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/posts', require('./routes/posts'));
 app.use('/api/notifications', require('./routes/notifications'));
+app.use('/api/upload', require('./routes/upload'));
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'VibeGrid API is healthy' });

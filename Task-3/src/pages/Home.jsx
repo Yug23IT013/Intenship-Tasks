@@ -31,7 +31,7 @@ const Home = () => {
       {/* Hero Banner */}
       <section className="hero">
         <div className="hero-content">
-          <p className="hero-tag">🏪 Bengaluru's Favourite Local Store</p>
+          <p className="hero-tag">🛒 Bengaluru's Premium Essentials Store</p>
           <h1 className="hero-title">Fresh Products,<br />Delivered to Your Door</h1>
           <p className="hero-sub">Shop groceries, dairy, snacks, electronics and more — sourced fresh every morning from local suppliers.</p>
           <div className="hero-btns">
@@ -111,7 +111,7 @@ const Home = () => {
       <section className="promo-banner">
         <div className="promo-content">
           <h2>Get ₹50 off your first order</h2>
-          <p>Use code <strong>LOCALMART50</strong> at checkout</p>
+          <p>Use code <strong>MYCART50</strong> at checkout</p>
           <Link to="/products" className="btn-primary" id="promo-shop-btn">Start Shopping</Link>
         </div>
         <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=500&h=300&fit=crop" alt="Special offer" className="promo-img" />

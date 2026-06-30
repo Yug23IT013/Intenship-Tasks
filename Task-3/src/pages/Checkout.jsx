@@ -40,7 +40,7 @@ const Checkout = () => {
   };
 
   const applyCoupon = () => {
-    if (coupon.trim().toUpperCase() === 'LOCALMART50') {
+    if (coupon.trim().toUpperCase() === 'MYCART50') {
       setDiscount(50);
       setCouponApplied(true);
       toast.success('Coupon applied! ₹50 off');
@@ -61,7 +61,7 @@ const Checkout = () => {
         phone: form.phone,
         address: { street: form.address, city: form.city, pincode: form.pincode },
         payment: form.payment,
-        couponCode: couponApplied ? 'LOCALMART50' : '',
+        couponCode: couponApplied ? 'MYCART50' : '',
         items: items.map(i => ({ productId: i._id || i.id, name: i.name, qty: i.qty })),
       };
       const res = await placeOrder(payload);
@@ -157,13 +157,13 @@ const Checkout = () => {
             <div className="checkout-section">
               <h2 className="checkout-section-title">🎟️ Coupon Code</h2>
               <div className="coupon-row">
-                <input id="checkout-coupon-input" type="text" placeholder="LOCALMART50" value={coupon} onChange={e => setCoupon(e.target.value)} className="coupon-input" />
+                <input id="checkout-coupon-input" type="text" placeholder="MYCART50" value={coupon} onChange={e => setCoupon(e.target.value)} className="coupon-input" />
                 <button type="button" className="btn-apply" id="apply-checkout-coupon-btn" onClick={applyCoupon}>Apply</button>
               </div>
             </div>
           ) : (
             <div className="checkout-section">
-              <div className="coupon-applied">✅ Coupon LOCALMART50 applied — ₹50 off!</div>
+              <div className="coupon-applied">✅ Coupon MYCART50 applied — ₹50 off!</div>
             </div>
           )}
 

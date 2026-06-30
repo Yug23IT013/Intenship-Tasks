@@ -6,10 +6,10 @@ const Footer = () => (
     <div className="footer-inner">
       <div className="footer-brand">
         <div className="footer-logo">
-          <span>🏪</span>
-          <span className="footer-name">LocalMart</span>
+          <span>🛒</span>
+          <span className="footer-name">MyCart</span>
         </div>
-        <p className="footer-desc">Your trusted neighbourhood store — now online. Fresh products, fair prices, fast delivery.</p>
+        <p className="footer-desc">Premium products, fair prices, and lightning-fast delivery straight to your doorstep.</p>
         <div className="footer-social">
           <a href="#" id="fb-link" aria-label="Facebook"><FiFacebook /></a>
           <a href="#" id="ig-link" aria-label="Instagram"><FiInstagram /></a>
@@ -42,14 +42,14 @@ const Footer = () => (
         <ul className="contact-list">
           <li><FiMapPin size={13} /> 42, Market Road, Bengaluru - 560001</li>
           <li><FiPhone size={13} /> +91 98765 43210</li>
-          <li><FiMail size={13} /> hello@localmart.in</li>
+          <li><FiMail size={13} /> support@mycart.com</li>
         </ul>
         <p className="hours">Mon–Sat: 8 AM – 9 PM<br />Sun: 9 AM – 7 PM</p>
       </div>
     </div>
 
     <div className="footer-bottom">
-      <p>© 2024 LocalMart. All rights reserved.</p>
+      <p>© 2026 MyCart. All rights reserved.</p>
       <div className="footer-bottom-links">
         <Link to="/support" id="footer-support">Customer Support</Link>
         <a href="#">Privacy Policy</a>

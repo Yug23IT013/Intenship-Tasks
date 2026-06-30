@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { createPost } from '../api/api';
+import { useState, useRef } from 'react';
+import { createPost, uploadPhoto } from '../api/api';
 import toast from 'react-hot-toast';
-import { FiImage, FiSend, FiX } from 'react-icons/fi';
+import { FiImage, FiSend, FiX, FiUploadCloud } from 'react-icons/fi';
 
 const PRESET_PHOTOS = [
   { name: '✈️ Travel', url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=500&fit=crop' },
@@ -15,6 +15,37 @@ const CreatePost = ({ onPostCreated }) => {
   const [mediaUrl, setMediaUrl] = useState('');
   const [showPhotoPicker, setShowPhotoPicker] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  
+  const fileInputRef = useRef(null);
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('File size exceeds 5MB limit');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('image', file);
+
+    setUploading(true);
+    try {
+      const res = await uploadPhoto(formData);
+      setMediaUrl(res.data.url);
+      toast.success('Photo uploaded!');
+      setShowPhotoPicker(false);
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to upload image');
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -77,7 +108,7 @@ const CreatePost = ({ onPostCreated }) => {
               onClick={() => setShowPhotoPicker(!showPhotoPicker)}
               title="Add photo"
             >
-              <FiImage /> <span>Add Photo</span>
+              <FiImage /> <span>{uploading ? 'Uploading...' : 'Add Photo'}</span>
             </button>
           </div>
 
@@ -85,16 +116,36 @@ const CreatePost = ({ onPostCreated }) => {
             type="submit"
             className="btn-primary btn-post-submit"
             id="post-submit-btn"
-            disabled={submitting || (!content.trim() && !mediaUrl)}
+            disabled={submitting || uploading || (!content.trim() && !mediaUrl)}
           >
             <FiSend /> {submitting ? 'Sharing...' : 'Share Post'}
           </button>
         </div>
 
-        {/* Preset Photos Picker */}
+        {/* Custom Upload and Preset Photo Picker */}
         {showPhotoPicker && (
           <div className="preset-photo-picker-row">
-            <h4>Select a Category Photo</h4>
+            <div className="picker-options-header">
+              <h4>Choose Photo Option</h4>
+              <button
+                type="button"
+                className="btn-upload-custom"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={uploading}
+              >
+                <FiUploadCloud /> {uploading ? 'Uploading...' : 'Upload Image File'}
+              </button>
+              <input
+                type="file"
+                ref={fileInputRef}
+                style={{ display: 'none' }}
+                accept="image/*"
+                onChange={handleFileChange}
+              />
+            </div>
+            
+            <div className="picker-divider">OR USE A PRESET</div>
+            
             <div className="picker-grid">
               {PRESET_PHOTOS.map((photo, i) => (
                 <button

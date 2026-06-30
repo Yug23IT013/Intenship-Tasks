@@ -39,10 +39,10 @@ const Navbar = () => {
         <div className="navbar-inner">
           {/* Brand */}
           <Link to="/" className="brand" id="brand-logo">
-            <span className="brand-icon">🏪</span>
+            <span className="brand-icon">🛒</span>
             <div>
-              <span className="brand-name">LocalMart</span>
-              <span className="brand-tagline">Your Neighbourhood Store</span>
+              <span className="brand-name">MyCart</span>
+              <span className="brand-tagline">Premium Quality, Delivered Swiftly</span>
             </div>
           </Link>
 

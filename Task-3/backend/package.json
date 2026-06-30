@@ -1,7 +1,7 @@
 {
-  "name": "localmart-backend",
+  "name": "mycart-backend",
   "version": "1.0.0",
-  "description": "LocalMart E-Commerce Backend API",
+  "description": "MyCart E-Commerce Backend API",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

@@ -46,7 +46,7 @@ router.post('/',
 
       // Coupon
       let discount = 0;
-      if (couponCode?.toUpperCase() === 'LOCALMART50') discount = 50;
+      if (couponCode?.toUpperCase() === 'MYCART50') discount = 50;
 
       const totalAmount = subtotal + deliveryCharge - discount;
 

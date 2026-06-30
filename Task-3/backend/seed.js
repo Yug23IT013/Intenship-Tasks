@@ -60,11 +60,11 @@ const seed = async () => {
     console.log('🗑️  Cleared products and reviews');
 
     // Create demo user if not exists
-    let demoUser = await User.findOne({ email: 'demo@localmart.in' });
+    let demoUser = await User.findOne({ email: 'demo@mycart.com' });
     if (!demoUser) {
       const hashed = await bcrypt.hash('demo1234', 12);
-      demoUser = await User.create({ name: 'Demo User', email: 'demo@localmart.in', password: hashed });
-      console.log('👤 Created demo user: demo@localmart.in / demo1234');
+      demoUser = await User.create({ name: 'Demo User', email: 'demo@mycart.com', password: hashed });
+      console.log('👤 Created demo user: demo@mycart.com / demo1234');
     }
 
     // Insert products
@@ -85,7 +85,7 @@ const seed = async () => {
     Object.entries(cats).forEach(([c,n]) => console.log(`   ${c.padEnd(14)} ${n}`));
 
     console.log('\n🔑 Demo credentials:');
-    console.log('   Email:    demo@localmart.in');
+    console.log('   Email:    demo@mycart.com');
     console.log('   Password: demo1234\n');
 
   } catch (err) {

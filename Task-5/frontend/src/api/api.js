@@ -39,4 +39,11 @@ export const getTrendingTags = () => api.get('/posts/trending');
 export const getNotifications = () => api.get('/notifications');
 export const markNotificationsRead = () => api.put('/notifications/read');
 
+// ── Upload API ────────────────────────────────────────────────────────────────
+export const uploadPhoto = (formData) => api.post('/upload', formData, {
+  headers: {
+    'Content-Type': 'multipart/form-data'
+  }
+});
+
 export default api;

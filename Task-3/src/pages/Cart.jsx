@@ -12,7 +12,7 @@ const Cart = () => {
   const [couponApplied, setCouponApplied] = useState(false);
 
   const applyCoupon = () => {
-    if (coupon.trim().toUpperCase() === 'LOCALMART50') {
+    if (coupon.trim().toUpperCase() === 'MYCART50') {
       setDiscount(50);
       setCouponApplied(true);
       toast.success('Coupon applied! ₹50 off');
@@ -108,7 +108,7 @@ const Cart = () => {
           )}
 
           {couponApplied && (
-            <div className="coupon-applied">✅ Coupon LOCALMART50 applied — ₹50 off!</div>
+            <div className="coupon-applied">✅ Coupon MYCART50 applied — ₹50 off!</div>
           )}
 
           <button

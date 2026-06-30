@@ -37,6 +37,6 @@ app.use((err, _req, res, _next) => {
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
-  console.log(`\n🚀 LocalMart API running on http://localhost:${PORT}/api`);
+  console.log(`\n🚀 MyCart API running on http://localhost:${PORT}/api`);
   console.log(`❤️  Health: http://localhost:${PORT}/api/health\n`);
 });

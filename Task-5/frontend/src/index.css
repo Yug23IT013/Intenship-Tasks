@@ -3,27 +3,29 @@
 :root {
   --font-sans: 'Outfit', sans-serif;
   
-  /* Color Palette */
-  --bg-main: #06050b;
-  --bg-surface: rgba(18, 16, 30, 0.7);
-  --bg-card: rgba(22, 20, 36, 0.75);
-  --bg-input: rgba(255, 255, 255, 0.04);
-  --border-color: rgba(255, 255, 255, 0.07);
+  /* Color Palette - Professional Deep Slate Dark Theme */
+  --bg-main: #0b0f19;       /* Deep obsidian-slate background */
+  --bg-surface: #111827;    /* Slate-900 surface panels */
+  --bg-card: #1f2937;       /* Slate-800 card backgrounds */
+  --bg-input: #111827;      /* Clean input fields */
+  --border-color: #374151;  /* Slate-700 border color */
   
-  --primary: #6366f1;
-  --primary-glow: rgba(99, 102, 241, 0.35);
-  --secondary: #ec4899;
-  --secondary-glow: rgba(236, 72, 153, 0.35);
-  --accent: #f43f5e;
+  --primary: #3b82f6;       /* Professional Royal Blue */
+  --primary-glow: rgba(59, 130, 246, 0.15);
+  --secondary: #10b981;     /* Emerald Green */
+  --secondary-glow: rgba(16, 185, 129, 0.15);
+  --accent: #ef4444;        /* Rose Red */
   
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --text-dim: #64748b;
+  --text-main: #f3f4f6;     /* Slate-100 primary text */
+  --text-muted: #9ca3af;    /* Slate-400 muted text */
+  --text-dim: #6b7280;      /* Slate-500 dim text */
   
-  --glass-border: 1px solid rgba(255, 255, 255, 0.08);
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-normal: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --bg-active: #1f2937;     /* Slate-800 active state */
+  
+  --glass-border: 1px solid var(--border-color);
+  --glass-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Base resets */
@@ -200,10 +202,9 @@ body {
   width: 100%;
   max-width: 440px;
   background: var(--bg-card);
-  backdrop-filter: blur(16px);
   border: var(--glass-border);
   box-shadow: var(--glass-shadow);
-  border-radius: 20px;
+  border-radius: 12px;
   padding: 40px;
   z-index: 2;
   animation: fadeIn 0.4s ease-out;
@@ -267,8 +268,7 @@ body {
 .header {
   height: 70px;
   border-bottom: var(--glass-border);
-  background: rgba(10, 8, 18, 0.85);
-  backdrop-filter: blur(12px);
+  background: var(--bg-surface);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -1009,7 +1009,7 @@ body {
   width: 340px;
   max-height: 480px;
   z-index: 1000;
-  background: #0d0a1b;
+  background: var(--bg-surface);
   border: var(--glass-border);
   box-shadow: var(--glass-shadow);
   border-radius: 12px;
@@ -1341,8 +1341,7 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(5px);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1351,10 +1350,10 @@ body {
 }
 
 .modal-box {
-  background: #0f0d1b;
+  background: var(--bg-surface);
   border: var(--glass-border);
   box-shadow: var(--glass-shadow);
-  border-radius: 16px;
+  border-radius: 12px;
   width: 90%;
   max-width: 440px;
   padding: 24px;
@@ -1407,3 +1406,137 @@ body {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* ── PHOTO UPLOAD COMPONENT STYLES ── */
+.picker-options-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.picker-options-header h4 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.btn-upload-custom {
+  background: var(--primary);
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition-fast);
+}
+
+.btn-upload-custom:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.picker-divider {
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 10px 0;
+  position: relative;
+}
+
+.picker-divider::before, .picker-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 30%;
+  height: 1px;
+  background: var(--border-color);
+}
+
+.picker-divider::before {
+  left: 0;
+}
+
+.picker-divider::after {
+  right: 0;
+}
+
+/* Profile Photo Editor Upload Actions */
+.avatar-edit-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.avatar-edit-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.avatar-edit-buttons .btn-regenerate {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: var(--transition-fast);
+}
+
+.avatar-edit-buttons .btn-regenerate:hover {
+  background: var(--border-color);
+}
+
+.avatar-edit-buttons .btn-regenerate.upload-btn {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+.avatar-edit-buttons .btn-regenerate.upload-btn:hover {
+  opacity: 0.9;
+}
+
+.cover-picker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.btn-upload-cover {
+  background: var(--primary);
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition-fast);
+}
+
+.btn-upload-cover:hover:not(:disabled) {
+  opacity: 0.9;
+}
+

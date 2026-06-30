@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { getUserDetails, followUser, getUserPosts, updateProfile } from '../api/api';
+import { getUserDetails, followUser, getUserPosts, updateProfile, uploadPhoto } from '../api/api';
 import Navbar from '../components/Navbar';
 import PostCard from '../components/PostCard';
 import toast from 'react-hot-toast';
-import { FiEdit2, FiCheck, FiX, FiRefreshCw, FiUserPlus, FiUserMinus } from 'react-icons/fi';
+import { FiEdit2, FiCheck, FiX, FiRefreshCw, FiUserPlus, FiUserMinus, FiUploadCloud } from 'react-icons/fi';
 
 const PRESET_COVERS = [
   'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&h=300&fit=crop',
@@ -31,6 +31,65 @@ const Profile = () => {
   const [avatar, setAvatar] = useState('');
   const [cover, setCover] = useState('');
   const [saving, setSaving] = useState(false);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [uploadingCover, setUploadingCover] = useState(false);
+  
+  const avatarInputRef = useRef(null);
+  const coverInputRef = useRef(null);
+
+  const handleAvatarUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('File size exceeds 5MB limit');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('image', file);
+
+    setUploadingAvatar(true);
+    try {
+      const res = await uploadPhoto(formData);
+      setAvatar(res.data.url);
+      toast.success('Avatar uploaded!');
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to upload avatar');
+    } finally {
+      setUploadingAvatar(false);
+      if (avatarInputRef.current) {
+        avatarInputRef.current.value = '';
+      }
+    }
+  };
+
+  const handleCoverUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('File size exceeds 5MB limit');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('image', file);
+
+    setUploadingCover(true);
+    try {
+      const res = await uploadPhoto(formData);
+      setCover(res.data.url);
+      toast.success('Cover photo uploaded!');
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to upload cover photo');
+    } finally {
+      setUploadingCover(false);
+      if (coverInputRef.current) {
+        coverInputRef.current.value = '';
+      }
+    }
+  };
 
   const loadProfileAndPosts = async () => {
     setLoading(true);
@@ -221,12 +280,29 @@ const Profile = () => {
               </button>
             </div>
             <form onSubmit={handleProfileUpdate} id="profile-edit-form">
-              {/* Avatar regenerate */}
+              {/* Avatar regenerate / upload */}
               <div className="avatar-edit-wrap">
                 <img src={avatar} alt="Avatar" className="profile-avatar-large edit-large" />
-                <button type="button" className="btn-regenerate" onClick={regenerateAvatar}>
-                  <FiRefreshCw /> Refresh Avatar
-                </button>
+                <div className="avatar-edit-buttons">
+                  <button type="button" className="btn-regenerate" onClick={regenerateAvatar}>
+                    <FiRefreshCw /> Random
+                  </button>
+                  <button
+                    type="button"
+                    className="btn-regenerate upload-btn"
+                    onClick={() => avatarInputRef.current?.click()}
+                    disabled={uploadingAvatar}
+                  >
+                    <FiUploadCloud /> {uploadingAvatar ? '...' : 'Upload'}
+                  </button>
+                  <input
+                    type="file"
+                    ref={avatarInputRef}
+                    style={{ display: 'none' }}
+                    accept="image/*"
+                    onChange={handleAvatarUpload}
+                  />
+                </div>
               </div>
 
               {/* Bio description */}
@@ -241,9 +317,26 @@ const Profile = () => {
                 />
               </div>
 
-              {/* Cover presets selector */}
+              {/* Cover presets / upload selector */}
               <div className="form-group">
-                <label>Select Cover Background</label>
+                <div className="cover-picker-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <label style={{ marginBottom: 0 }}>Cover Background</label>
+                  <button
+                    type="button"
+                    className="btn-upload-cover"
+                    onClick={() => coverInputRef.current?.click()}
+                    disabled={uploadingCover}
+                  >
+                    <FiUploadCloud /> {uploadingCover ? 'Uploading...' : 'Upload Custom'}
+                  </button>
+                  <input
+                    type="file"
+                    ref={coverInputRef}
+                    style={{ display: 'none' }}
+                    accept="image/*"
+                    onChange={handleCoverUpload}
+                  />
+                </div>
                 <div className="cover-picker-grid">
                   {PRESET_COVERS.map((cov, i) => (
                     <button

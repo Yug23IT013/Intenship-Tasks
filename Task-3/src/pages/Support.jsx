@@ -40,7 +40,7 @@ const Support = () => {
         <div className="contact-card">
           <div className="contact-icon email"><FiMail size={22} /></div>
           <h3>Email Us</h3>
-          <p>hello@localmart.in</p>
+          <p>support@mycart.com</p>
           <small>We reply within 2 hours</small>
         </div>
         <div className="contact-card">
